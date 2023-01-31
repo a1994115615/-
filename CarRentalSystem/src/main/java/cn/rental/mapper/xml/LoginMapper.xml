@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.rental.mapper.LoginMapper">
+    <!--findOne-->
+    <select id="findOne" resultType="Login">
+        select USER_NAME, PASSWORD, LAST_TIME, TIMES, STATE, REGISTER_TIME, USER_TYPE
+        from login
+        where USER_NAME = #{USER_NAME}
+    </select>
+    <!--getOwnerOfVehicleInfo-->
+    <select id="getOwnerOfVehicleInfo" resultType="UserInfo">
+        SELECT USER_NAME, Name, SEX, TEL, USER_TYPE, CREDIT, STATE
+        FROM login
+                 NATURAL JOIN owner_of_vehicle
+    </select>
+    <!--getHirerOfVehicle-->
+    <select id="getHirerOfVehicle" resultType="UserInfo">
+        SELECT USER_NAME, Name, SEX, TEL, USER_TYPE, CREDIT, STATE
+        FROM login
+                 NATURAL JOIN hirer_of_vehicle
+    </select>
+
+    <update id="modify" parameterType="UserInfo">
+        UPDATE login
+        SET PASSWORD=#{PASSWORD}
+        WHERE USER_NAME = #{USER_NAME}
+    </update>
+
+    <update id="updateLog" parameterType="Login">
+        UPDATE login
+        SET LAST_TIME=#{LAST_TIME},
+            TIMES=#{TIMES},
+            STATE=#{STATE}
+        WHERE USER_NAME = #{USER_NAME}
+    </update>
+
+    <update id="updateStatus" parameterType="Login">
+        UPDATE login
+        SET STATE=#{STATE}
+        WHERE USER_NAME = #{USER_NAME}
+    </update>
+
+
+</mapper>

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <title>摩托车租聘系统</title>
+    <link th:href="@{/static/login/style_index.css}" rel="stylesheet"/>
+    <link th:href="@{/static/startbootstrap-sb-admin-gh-pages/css/styles.css}" rel="stylesheet"/>
+    <script th:src="@{/static/jQuery/jquery-3.6.0.min.js}"></script>
+    <script>
+        $(document).ready(function () {
+            document.getElementById("black").click();
+        });
+    </script>
+</head>
+<body class="sb-nav-fixed">
+<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+    <!-- Navbar Brand-->
+    <a class="navbar-brand ps-3" href="#">摩托车租聘</a>
+    <!-- Sidebar Toggle-->
+    <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
+            class="fas fa-bars"></i></button>
+    <!-- Navbar Search-->
+    <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+        <div class="input-group">
+
+        </div>
+    </form>
+    <!-- 个人设置-->
+    <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
+               aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" th:href="@{/basic/perInfo}">个人信息</a></li>
+                <li>
+                    <hr class="dropdown-divider"/>
+                </li>
+                <li><a class="dropdown-item" th:href="@{/login/toModify}">修改密码</a></li>
+                <li><a class="dropdown-item" th:href="@{/login/signOut}">退出登录</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+<div id="layoutSidenav">
+    <!--侧边栏-->
+    <div id="layoutSidenav_nav">
+        <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+            <div class="sb-sidenav-menu">
+                <div class="nav">
+                    <div class="sb-sidenav-menu-heading">数据</div>
+                    <a class="nav-link" th:href="@{/login/login_success}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        数据分析
+                    </a>
+                    <div class="sb-sidenav-menu-heading">管理</div>
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts"
+                       id="black"
+                       aria-expanded="false" aria-controls="collapseLayouts">
+                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                        用户管理
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
+                         data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" th:href="@{/admin/hirer_list}">租车人</a>
+                            <a class="nav-link" th:href="@{/admin/owner_list}">车主</a>
+                            <a class="nav-link" th:href="@{/admin/blacklist}">黑名单</a>
+                        </nav>
+                    </div>
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages"
+                       aria-expanded="false" aria-controls="collapsePages">
+                        <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                        车辆管理
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapsePages" aria-labelledby="headingTwo"
+                         data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                               data-bs-target="#pagesCollapseAuth" aria-expanded="false"
+                               aria-controls="pagesCollapseAuth">
+                                查看车辆
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne"
+                                 data-bs-parent="#sidenavAccordionPages">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" th:href="@{/admin/vehicle_list}">所有车辆</a>
+                                    <a class="nav-link" th:href="@{/admin/vehicle_list_rent(status=1)}">已租车辆</a>
+                                    <a class="nav-link" th:href="@{/admin/vehicle_list_rent(status=0)}">待租车辆</a>
+                                    <a class="nav-link" th:href="@{/admin/vehicle_list_rent(status=2)}">已下架车辆</a>
+                                </nav>
+                            </div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                               data-bs-target="#pagesCollapseError" aria-expanded="false"
+                               aria-controls="pagesCollapseError">
+                                车辆上/下架
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne"
+                                 data-bs-parent="#sidenavAccordionPages">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" th:href="@{/admin/vehicle_list_rent(status=2,opt='up')}">上架</a>
+                                    <a class="nav-link"
+                                       th:href="@{/admin/vehicle_list_rent(status=0,opt='down')}">下架</a>
+                                </nav>
+                            </div>
+                        </nav>
+                    </div>
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts2"
+                       aria-expanded="false" aria-controls="collapseLayouts2">
+                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                        订单管理
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapseLayouts2" aria-labelledby="headingOne"
+                         data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" th:href="@{/admin/all_order}">所有订单</a>
+                            <a class="nav-link" th:href="@{/admin/current_order}">当前订单</a>
+                        </nav>
+                    </div>
+                    <div class="sb-sidenav-menu-heading">系统功能</div>
+                    <a class="nav-link" th:href="@{/admin/message_list}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                        我的留言
+                    </a>
+                    <a class="nav-link" th:href="@{/admin/to_send}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                        发送留言
+                    </a>
+                </div>
+            </div>
+            <div class="sb-sidenav-footer">
+                <div class="small">已登录:</div>
+                <a th:href="@{/basic/perInfo}" th:text="${session.user_name}"></a>
+            </div>
+        </nav>
+    </div>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <h1 class="mt-4">租车人信息</h1>
+                <ol class="breadcrumb mb-4">
+                    <li class="breadcrumb-item active">租车人</li>
+                </ol>
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-table me-1"></i> 租车人信息表
+                    </div>
+                    <div class="card-body">
+                        <table id="datatablesSimple">
+                            <thead>
+                            <tr>
+                                <th>用户名</th>
+                                <th>姓名</th>
+                                <th>用户类型</th>
+                                <th>性别</th>
+                                <th>身份证号</th>
+                                <th>手机号</th>
+                                <th>邮箱</th>
+                                <th>信誉分</th>
+                                <th>交易次数</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tfoot>
+                            <tr>
+                                <th>用户名</th>
+                                <th>姓名</th>
+                                <th>用户类型</th>
+                                <th>性别</th>
+                                <th>身份证号</th>
+                                <th>手机号</th>
+                                <th>邮箱</th>
+                                <th>信誉分</th>
+                                <th>交易次数</th>
+                                <th>操作</th>
+                            </tr>
+                            </tfoot>
+                            <tbody>
+                            <tr th:each="black: ${blacklist}">
+                                <td th:text="${black.USER_NAME}"></td>
+                                <td th:text="${black.NAME}"></td>
+                                <td th:text="${black.USER_TYPE}==1?'租车人':'车主'"></td>
+                                <td th:text="${black.SEX}==0?'女':'男'"></td>
+                                <td th:text="${black.ID}"></td>
+                                <td th:text="${black.TEL}"></td>
+                                <td th:text="${black.EMAIL}"></td>
+                                <td th:text="${black.CREDIT}"></td>
+                                <td th:text="${black.FREQUENCY}"></td>
+                                <td>
+                                    <a th:href="@{/admin/outBlackList(username=${black.USER_NAME},tp=${black.USER_TYPE})}">移出黑名单</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer class="py-4 bg-light mt-auto">
+            <div class="container-fluid px-4">
+                <div class="d-flex align-items-center justify-content-between small">
+
+
+                </div>
+            </div>
+        </footer>
+    </div>
+</div>
+<script th:src="@{/static/login/bootstrap.bundle.min.js}"
+        crossorigin="anonymous"></script>
+<script th:src="@{/static/login/all_index.min.js}" crossorigin="anonymous"></script>
+<script th:src="@{/static/startbootstrap-sb-admin-gh-pages/js/scripts.js}"></script>
+<script th:src="@{/static/login/Chart_index.js}" crossorigin="anonymous"></script>
+<script th:src="@{/static/startbootstrap-sb-admin-gh-pages/assets/demo/chart-area-demo.js}"></script>
+<script th:src="@{/static/startbootstrap-sb-admin-gh-pages/assets/demo/chart-bar-demo.js}"></script>
+<script th:src="@{/static/login/simple-datatables@latest.js}" crossorigin="anonymous"></script>
+<script th:src="@{/static/startbootstrap-sb-admin-gh-pages/js/datatables-simple-demo.js}"></script>
+</body>
+</html>

@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.rental.mapper.AdminMapper">
+    <!--getAdminInfos-->
+    <select id="getAdminInfos" resultType="AdminInfo">
+        SELECT ADMIN_ID, USER_NAME, Name, USER_TYPE, STATE, LAST_TIME
+        FROM login
+                 NATURAL JOIN admin
+    </select>
+
+    <!--getPerInfo_Admin-->
+    <select id="getPerInfo_Admin" resultType="UserInfo">
+        SELECT USER_NAME, NAME, ID, ADMIN_ID
+        FROM admin
+        WHERE USER_NAME = #{USER_NAME}
+    </select>
+
+    <!--getPerInfo_Hirer-->
+    <select id="getPerInfo_Hirer" resultType="UserInfo">
+        SELECT USER_NAME, NAME, SEX, ID, TEL, CREDIT, EMAIL
+        FROM hirer_of_vehicle
+        WHERE USER_NAME = #{USER_NAME}
+    </select>
+
+    <!--getPerInfo_Owner-->
+    <select id="getPerInfo_Owner" resultType="UserInfo">
+        SELECT USER_NAME,
+               NAME,
+               SEX,
+               ID,
+               TEL,
+               CREDIT,
+               EMAIL
+        FROM owner_of_vehicle
+                 join vehicle
+        WHERE USER_NAME = #{USER_NAME}
+          and OWNER_ID = #{USER_NAME}
+    </select>
+
+    <!--getPerInfo-->
+    <select id="getHirerList" resultType="Hirer">
+        SELECT USER_NAME,
+               NAME,
+               SEX,
+               ID,
+               CREDIT,
+               FREQUENCY,
+               EMAIL,
+               TEL
+        FROM hirer_of_vehicle
+    </select>
+
+    <select id="getOwnerList" resultType="Owner">
+        SELECT USER_NAME,
+               NAME,
+               SEX,
+               ID,
+               CREDIT,
+               FREQUENCY,
+               EMAIL,
+               TEL,
+               INCOME
+        FROM owner_of_vehicle
+    </select>
+
+    <!--getBlackList_Hirer-->
+    <select id="getBlackList_Hirer" resultType="UserInfo">
+        SELECT USER_NAME,
+               NAME,
+               SEX,
+               ID,
+               CREDIT,
+               FREQUENCY,
+               EMAIL,
+               TEL,
+               USER_TYPE
+        FROM hirer_of_vehicle
+                 natural join login
+        where CREDIT &lt; 60
+    </select>
+
+    <!--getBlackList_Owner-->
+    <select id="getBlackList_Owner" resultType="UserInfo">
+        SELECT USER_NAME,
+               NAME,
+               SEX,
+               ID,
+               CREDIT,
+               FREQUENCY,
+               EMAIL,
+               TEL,
+               USER_TYPE
+        FROM owner_of_vehicle
+                 natural join login
+        WHERE CREDIT
+                  &lt;
+              60
+    </select>
+
+    <!--getVehicleList-->
+    <select id="getVehicleList" resultType="Vehicle">
+        SELECT VEHICLE_ID,
+               VEHICLE_TYPE,
+               OWNER_ID,
+               DURATION,
+               STATUS,
+               RENTAL_PRICE,
+               DEADLINE,
+               LOCATION,
+               VEHICLE_BRAND
+        FROM vehicle
+    </select>
+
+    <!--getVehicleList-->
+    <select id="getVehicleListByStatus" resultType="Vehicle">
+        SELECT VEHICLE_ID,
+               VEHICLE_TYPE,
+               OWNER_ID,
+               DURATION,
+               STATUS,
+               RENTAL_PRICE,
+               DEADLINE,
+               LOCATION,
+               VEHICLE_BRAND
+        FROM vehicle
+        WHERE STATUS = #{STATUS}
+    </select>
+
+    <!--setVehicleStatusById-->
+    <update id="setVehicleStatusById" parameterType="Vehicle">
+        UPDATE vehicle
+        SET STATUS=#{STATUS}
+        WHERE VEHICLE_ID = #{VEHICLE_ID};
+    </update>
+
+    <!--getAllOrders-->
+    <select id="getAllOrders" resultType="Order">
+        SELECT ORDER_ID,
+               OWNER_NAME,
+               HIRER_NAME,
+               START_TIME,
+               END_TIME,
+               VEHICLE_TYPE,
+               STATUS,
+               AMOUNT,
+               VEHICLE_ID,
+               VEHICLE_BRAND
+        FROM orders
+    </select>
+
+    <!--getCurrentOrders-->
+    <select id="getCurrentOrders" resultType="Order">
+        SELECT ORDER_ID,
+               OWNER_NAME,
+               HIRER_NAME,
+               START_TIME,
+               END_TIME,
+               VEHICLE_TYPE,
+               STATUS,
+               AMOUNT,
+               VEHICLE_ID,
+               VEHICLE_BRAND
+        FROM orders
+        WHERE STATUS != 3
+    </select>
+
+    <!--getMessageList-->
+    <select id="getMessageList" resultType="Message" parameterType="AdminInfo">
+        SELECT MESSAGE_ID, SEND_NAME, RECEIVE_NAME, DETAIL, SEND_TIME, STATUS
+        FROM message
+        WHERE SEND_NAME = #{USER_NAME}
+           OR RECEIVE_NAME = #{USER_NAME}
+    </select>
+
+    <!--updateMsgStatus-->
+    <update id="updateMsgStatus" parameterType="Message">
+        UPDATE message
+        set STATUS = 1
+        WHERE MESSAGE_ID = #{MESSAGE_ID}
+    </update>
+
+    <!--addMsg-->
+    <insert id="addMsg" parameterType="Message">
+        INSERT INTO message(SEND_NAME, RECEIVE_NAME, DETAIL, SEND_TIME, STATUS)
+        VALUES (#{SEND_NAME}, #{RECEIVE_NAME}, #{DETAIL}, #{SEND_TIME}, #{STATUS})
+    </insert>
+
+    <select id="getLoginLog" resultType="Login">
+        SELECT USER_NAME, PASSWORD, LAST_TIME, TIMES, STATE, REGISTER_TIME, USER_TYPE
+        FROM login
+    </select>
+
+    <update id="toBlackList1" parameterType="Hirer">
+        UPDATE hirer_of_vehicle
+        SET CREDIT=59
+        WHERE USER_NAME = #{USER_NAME}
+    </update>
+
+    <update id="toBlackList2" parameterType="Owner">
+        UPDATE owner_of_vehicle
+        SET CREDIT=59
+        WHERE USER_NAME = #{USER_NAME}
+    </update>
+
+    <update id="outBlackList1" parameterType="Hirer">
+        UPDATE hirer_of_vehicle
+        SET CREDIT=60
+        WHERE USER_NAME = #{USER_NAME}
+    </update>
+
+    <update id="outBlackList2" parameterType="Owner">
+        UPDATE owner_of_vehicle
+        SET CREDIT=60
+        WHERE USER_NAME = #{USER_NAME}
+    </update>
+
+
+</mapper>

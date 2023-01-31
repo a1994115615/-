@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>个人信息</title>
+    <link th:href="@{/static/login/style_index.css}" rel="stylesheet"/>
+    <link th:href="@{/static/startbootstrap-sb-admin-gh-pages/css/styles.css}" rel="stylesheet"/>
+    <!--    部分css样式-->
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        form {
+            width: 570px;
+            height: 300px;
+            margin: 100px auto;
+        }
+
+        label {
+            width: 64px;
+            float: left;
+            clear: left;
+            height: 36px;
+            line-height: 36px;
+            margin-top: 10px;
+        }
+
+        input {
+            width: 300px;
+            height: 36px;
+            line-height: 36px;
+            margin-top: 10px;
+            text-indent: 8px;
+            font-size: 16px;
+            font-family: "微软雅黑";
+            border: 1px solid #ccc;
+            float: left;
+        }
+
+        #sub {
+            width: 302px;
+            height: 40px;
+            border: 1px solid #ccc;
+            background: #888;
+            color: #fff;
+            font-size: 18px;
+            text-indent: 0;
+        }
+
+        #sub {
+            width: 302px;
+            height: 40px;
+            border: 1px solid #ccc;
+            background: #888;
+            color: #fff;
+            font-size: 18px;
+            text-indent: 0;
+        }
+
+        #sub2 {
+            width: 302px;
+            height: 40px;
+            border: 1px solid #ccc;
+            background: #888;
+            color: #fff;
+            font-size: 18px;
+            text-indent: 0;
+        }
+
+        .spa {
+            height: 36px;
+            line-height: 36px;
+            width: 204px;
+            display: inline-block;
+            float: left;
+            font-size: 12px;
+            color: #e21f15;
+            text-indent: 10px;
+            margin-top: 10px;
+        }
+
+        a {
+            float: none;
+            font-size: 14px;
+        }
+
+        a:link {
+            color: #b64741;
+        }
+
+        a:visited {
+            color: #b64741;
+        }
+
+        a:hover {
+            color: #d62c23;
+        }
+
+        a:active {
+            color: #e21f15;
+        }
+    </style>
+</head>
+
+<body class="sb-nav-fixed">
+<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+    <!-- Navbar Brand-->
+    <a class="navbar-brand ps-3" href="#">摩托车租聘系统</a>
+    <!-- Sidebar Toggle-->
+    <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
+            class="fas fa-bars"></i></button>
+    <!-- Navbar Search-->
+    <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+        <div class="input-group">
+
+        </div>
+    </form>
+    <!-- 个人设置-->
+    <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
+               aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" th:href="@{/basic/perInfo}">个人信息</a></li>
+                <li>
+                    <hr class="dropdown-divider"/>
+                </li>
+                <li><a class="dropdown-item" th:href="@{/login/toModify}">修改密码</a></li>
+                <li><a class="dropdown-item" th:href="@{/login/signOut}">退出登录</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+<div id="layoutSidenav">
+    <!--侧边栏-->
+    <!--    显示信息-->
+    <div id="layoutSidenav_content">
+        <form th:action="@{/basic/revise}" method="post">
+            <label id="user_name_">用户名：</label><input type="text" name="user_name" id="user_name"
+                                                      th:value="${personInfo.USER_NAME}"
+                                                      th:placeholder="${personInfo.USER_NAME}" readonly="true"/><span
+                class="spa spa3"><a
+                th:href="@{/login/toModify}"
+                class="reset_pas">修改密码?</a></span><br/>
+            <label id="username_">姓&nbsp;名：</label><input type="text" name="username" id="username"
+                                                          th:value="${personInfo.NAME}"
+                                                          th:placeholder="${personInfo.NAME}" readonly="true"/><span
+                class="spa spa1"></span><br/>
+            <label id="admin_id_" th:if="${personInfo.USER_TYPE}==0">工&nbsp;号：</label><input
+                th:if="${personInfo.USER_TYPE}==0" type="email" name="admin_id" id="admin_id"
+                th:value="${personInfo.ADMIN_ID}"
+                th:placeholder="${personInfo.ADMIN_ID}" readonly="" true/><span class="spa spa3"></span><br/>
+            <label id="sex_" th:if="${personInfo.USER_TYPE}!=0">性&nbsp;别：</label><input
+                th:if="${personInfo.USER_TYPE}!='0'" type="text" name="sex" id="sex"
+                th:value="${personInfo.SEX}==0?'女':'男'"
+                th:placeholder="${personInfo.SEX}==0?'女':'男'"
+                readonly="true"/><span class="spa spa3"></span><br/>
+            <label id="id_card_">身份证：</label><input type="text" name="id_card" id="id_card" th:value="${personInfo.ID}"
+                                                    th:placeholder="${personInfo.ID}"
+                                                    readonly="true"/><span class="spa spa3"></span><br/>
+            <label id="userphone_" th:if="${personInfo.USER_TYPE}!=0">手机号：</label><input
+                th:if="${personInfo.USER_TYPE}!=0" type="text" name="userphone" id="userphone"
+                th:value="${personInfo.TEL}"
+                th:placeholder="${personInfo.TEL}" readonly/><span class="spa spa2"></span><br/>
+            <!--            <label id="address_" th:if="${personInfo.USER_TYPE}==2">地&nbsp;址：</label><input-->
+            <!--                th:if="${personInfo.USER_TYPE}==2" type="text" name="address" id="address"-->
+            <!--                th:value="${personInfo.LOCATION}"-->
+            <!--                th:placeholder="${personInfo.LOCATION}"/><span class="spa spa3"></span><br/>-->
+            <label id="credit_" th:if="${personInfo.USER_TYPE}!=0">信誉分：</label><input th:if="${personInfo.USER_TYPE}!=0"
+                                                                                      type="text" name="credit"
+                                                                                      id="credit"
+                                                                                      th:value="${personInfo.CREDIT}"
+                                                                                      th:placeholder="${personInfo.CREDIT}"
+                                                                                      readonly="true"/><span
+                class="spa spa3"></span><br/>
+            <label id="address_num_" th:if="${personInfo.USER_TYPE}!=0">邮&nbsp;箱：</label><input
+                th:if="${personInfo.USER_TYPE}!=0" type="email" name="address_num" id="address_num"
+                th:value="${personInfo.EMAIL}"
+                th:placeholder="${personInfo.EMAIL}" readonly/><span class="spa spa3"></span><br/>
+            <label id="income_" th:if="${personInfo.USER_TYPE}==2">收&nbsp;益：</label><input type="text" name="income"
+                                                                                           th:if="${personInfo.USER_TYPE}==2"
+                                                                                           id="income"
+                                                                                           th:value="${personInfo.INCOME}"
+                                                                                           th:placeholder="${personInfo.INCOME}"
+                                                                                           readonly="" true/><span
+                class="spa spa3"></span><br/>
+            <label>&nbsp;&nbsp;&nbsp;&nbsp;</label>
+            <!--            <input type="submit" id="sub" value="提交修改"/>-->
+            <!--            <label>&nbsp;&nbsp;&nbsp;&nbsp;</label><input type="reset" value="放弃修改" id="sub2"/>-->
+        </form>
+    </div>
+
+    <script th:src="@{/static/jQuery/jquery-3.6.0.min.js}"></script>
+    <script type="text/javascript">
+        window.onload = function () {
+            $("#username").focus()
+        }
+        /************************  失焦判断  **********************************/
+        $("input").blur(function () {
+            $(".spa").css("color", "#BD362F")
+            if ($(this).is("#username")) { //姓名判断
+                var na = /^[\u4E00-\u9FA5]{2,4}$/
+                if ($("#username").val() != "") {
+                    if (!(na.test($("#username").val()))) {
+                        $(".spa1").text("请输入2-4个汉字");
+                        $(this).css("border", "1px solid #BD362F")
+                        return false;
+                    } else if (na) {
+                        $(".spa1").text("");
+                        return true;
+                    }
+                } else {
+                    $(".spa1").text("");
+                }
+            }
+            if ($(this).is("#userphone")) { //手机号判断
+                var ph = /^1[3|5|7|8|][0-9]{9}$/
+                if ($("#userphone").val() != "") {
+                    if (!(ph.test($("#userphone").val()))) {
+                        $(".spa2").text("请输入正确手机号");
+                        $(this).css("border", "1px solid #BD362F")
+                        return false;
+                    } else if (ph) {
+                        $(".spa2").text("");
+                        return true;
+                    }
+                } else {
+                    $(".spa2").text("");
+                }
+            }
+
+
+        })
+        /********************** 聚焦提示 ************************/
+        $("input").focus(function () {
+            if ($(this).is("#username")) {
+                $(".spa1").text("2-4个汉字").css("color", "#aaa")
+                $(this).css("border", "1px solid #aaa")
+            }
+            if ($(this).is("#userphone")) {
+                $(".spa2").text("11位手机号码").css("color", "#aaa")
+                $(this).css("border", "1px solid #aaa")
+            }
+        })
+        /*********************** 提交验证 ***************************/
+        $("#sub").click(function () {
+            var na = /^[\u4E00-\u9FA5]{2,4}$/; //姓名正则
+            var ph = /^1[3|5|7|8|][0-9]{9}$/; //手机号正则
+            if (na.test($("#username").val()) && ph.test($("#userphone").val()) && ad.test($("#useraddress").val())) {
+                return true;
+            } else {
+                if ($("#username").val() == "") {
+                    $(".spa1").text('请你填写用户名')
+                }
+                if ($("#userphone").val() == "") {
+                    $(".spa2").text('请你填写手机号')
+                }
+                return false;
+            }
+        })
+    </script>
+    <script th:src="@{/static/login/bootstrap.bundle.min.js}" crossorigin="anonymous"></script>
+    <script th:src="@{/static/login/all_index.min.js}" crossorigin="anonymous"></script>
+    <script th:src="@{/static/startbootstrap-sb-admin-gh-pages/js/scripts.js}"></script>
+    <script th:src="@{/static/login/Chart_index.js}" crossorigin="anonymous"></script>
+    <script th:src="@{/static/startbootstrap-sb-admin-gh-pages/assets/demo/chart-area-demo.js}"></script>
+    <script th:src="@{/static/startbootstrap-sb-admin-gh-pages/assets/demo/chart-bar-demo.js}"></script>
+    <script th:src="@{/static/login/simple-datatables@latest.js}" crossorigin="anonymous"></script>
+    <script th:src="@{/static/startbootstrap-sb-admin-gh-pages/js/datatables-simple-demo.js}"></script>
+</body>
+
+</html>
